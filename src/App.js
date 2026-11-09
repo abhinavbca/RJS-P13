@@ -1,79 +1,101 @@
 import React, { useState } from "react";
 
 function App() {
-
-    // TODO 1:
-    // Create state variables for:
-    // name, email, feedback and error message
-
-
-    // TODO 2:
-    // Create a function to handle form submission
+const [name, setName] = useState("");
+const [email, setEmail] = useState("");
+const [feedback, setFeedback] = useState("");
+const [error, setError] = useState("");
+const [success, setSuccess] = useState("");
 
 
-    // TODO 3:
-    // Validate the following:
-    // 1. Name should not be empty
-    // 2. Email should not be empty
-    // 3. Feedback should not be empty
-    // 4. Email should contain @
+const handleSubmit = (event) => {
+    event.preventDefault();
 
+    setError("");
+    setSuccess("");
 
-    // TODO 4:
-    // Display the feedback form
+    if (name.trim() === "") {
+        setError("Please enter your name.");
+        return;
+    }
 
+    if (email.trim() === "") {
+        setError("Please enter your email.");
+        return;
+    }
 
-    return (
-        <div className="container">
+    if (!email.includes("@")) {
+        setError("Please enter a valid email address.");
+        return;
+    }
 
-            <h1>Student Feedback Form</h1>
+    if (feedback.trim() === "") {
+        setError("Please enter your feedback.");
+        return;
+    }
 
-            <form>
+    setSuccess("Feedback submitted successfully.");
 
-                <div>
-                    <label>Name:</label>
-                    <input
-                        type="text"
-                        id="name"
-                        placeholder="Enter your name"
-                    />
-                </div>
+    setName("");
+    setEmail("");
+    setFeedback("");
+};
 
+return (
+    <div className="container">
+        <h1>Student Feedback Form</h1>
+
+        <form onSubmit={handleSubmit}>
+            <div>
+                <label htmlFor="name">Name:</label>
+                <input
+                    type="text"
+                    id="name"
+                    placeholder="Enter your name"
+                    value={name}
+                    onChange={(event) => setName(event.target.value)}
+                />
+            </div>
+
+            <br />
+
+            <div>
+                <label htmlFor="email">Email:</label>
+                <input
+                    type="text"
+                    id="email"
+                    placeholder="Enter your email"
+                    value={email}
+                    onChange={(event) => setEmail(event.target.value)}
+                />
+            </div>
+
+            <br />
+
+            <div>
+                <label htmlFor="feedback">Feedback:</label>
                 <br />
+                <textarea
+                    id="feedback"
+                    rows="5"
+                    placeholder="Enter your feedback"
+                    value={feedback}
+                    onChange={(event) => setFeedback(event.target.value)}
+                />
+            </div>
 
-                <div>
-                    <label>Email:</label>
-                    <input
-                        type="email"
-                        id="email"
-                        placeholder="Enter your email"
-                    />
-                </div>
+            <br />
 
-                <br />
+            {error && <p style={{ color: "red" }}>{error}</p>}
 
-                <div>
-                    <label>Feedback:</label>
-                    <br />
-                    <textarea
-                        id="feedback"
-                        rows="5"
-                        placeholder="Enter your feedback"
-                    ></textarea>
-                </div>
+            {success && <p style={{ color: "green" }}>{success}</p>}
 
-                <br />
+            <button type="submit">Submit Feedback</button>
+        </form>
+    </div>
+);
 
-                {/* Display validation error here */}
 
-                <button type="submit">
-                    Submit Feedback
-                </button>
-
-            </form>
-
-        </div>
-    );
 }
 
 export default App;
